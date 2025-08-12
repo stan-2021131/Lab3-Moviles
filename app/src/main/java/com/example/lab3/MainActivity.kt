@@ -7,7 +7,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -33,7 +32,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -48,12 +46,11 @@ class MainActivity : ComponentActivity() {
             Lab3Theme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Greeting(
-                        name = "Android",
+                        name = "",
                         modifier = Modifier.padding(innerPadding)
                     )
                     GreetingImage()
-
-                    ListaElementos()
+                    AgregarTarea()
                 }
             }
         }
@@ -63,16 +60,17 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     Text(
-        text = "Hello $name!",
+        text = name,
         modifier = modifier
     )
 }
 
 @Composable
 fun AgregarTarea(){
+    var elementos by remember { mutableStateOf(listOf("Hacer formulario de física", "Comprar pan")) }
     var tarea by remember { mutableStateOf("") }
     Row(
-        modifier = Modifier.padding(vertical = 30.dp),
+        modifier = Modifier.padding(vertical = 40.dp),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -85,12 +83,17 @@ fun AgregarTarea(){
         )
         Button(
             onClick = {
-
+                if(tarea.isNotEmpty()){
+                    elementos = elementos + tarea
+                    tarea = ""
+                }
             }
         ) {
             Text(stringResource(R.string.botonAgregar))
         }
     }
+
+    ListaElementos(elementos)
 
 }
 
@@ -102,7 +105,8 @@ fun GreetingImage( modifier: Modifier = Modifier){
             painter = image,
             contentDescription = null,
             contentScale = ContentScale.Crop,
-            alpha = 0.6F
+            alpha = 0.6F,
+            modifier = Modifier.fillMaxSize()
         )
     }
 
@@ -120,14 +124,12 @@ fun GreetingPreview() {
 
 
 @Composable
-fun ListaElementos() {
-    var elementos by remember { mutableStateOf(listOf("Elementto 1", "Elemento 2")) }
-
-
+fun ListaElementos(elementos: List<String>) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(16.dp)
+            .padding(vertical = 120.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
