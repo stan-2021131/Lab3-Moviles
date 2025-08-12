@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -21,6 +22,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.*
+import androidx.compose.ui.res.painterResource
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.runtime.remember
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.lab3.ui.theme.Lab3Theme
@@ -37,6 +45,8 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding)
                     )
                     AgregarTarea()
+
+                    ListaElementos()
                 }
             }
         }
@@ -77,10 +87,39 @@ fun AgregarTarea(){
 
 }
 
+@Composable
+fun GreetingImage( modifier: Modifier = Modifier){
+    val image = painterResource(R.drawable.fondopanda)
+    Box(modifier){
+        Image(
+            painter = image,
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            alpha = 0.6F
+        )
+    }
+
+}
+
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     Lab3Theme {
+        GreetingImage()
         Greeting("Android")
+    }
+}
+
+
+
+@Composable
+fun ListaElementos() {
+    var elementos by remember { mutableStateOf(listOf("Elementto 1", "Elemento 2")) }
+
+
+    LazyColumn {
+        items(elementos) { elemento ->
+            Text(text = elemento)
+        }
     }
 }
