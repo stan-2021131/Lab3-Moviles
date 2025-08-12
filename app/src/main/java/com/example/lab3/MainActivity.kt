@@ -15,6 +15,8 @@ import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.res.painterResource
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.runtime.remember
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.lab3.ui.theme.Lab3Theme
@@ -30,6 +32,8 @@ class MainActivity : ComponentActivity() {
                         name = "Android",
                         modifier = Modifier.padding(innerPadding)
                     )
+
+                    ListaElementos()
                 }
             }
         }
@@ -64,5 +68,19 @@ fun GreetingPreview() {
     Lab3Theme {
         GreetingImage()
         Greeting("Android")
+    }
+}
+
+
+
+@Composable
+fun ListaElementos() {
+    var elementos by remember { mutableStateOf(listOf("Elementto 1", "Elemento 2")) }
+
+
+    LazyColumn {
+        items(elementos) { elemento ->
+            Text(text = elemento)
+        }
     }
 }
